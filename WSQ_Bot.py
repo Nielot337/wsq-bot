@@ -6,8 +6,8 @@ from apscheduler.triggers.cron import CronTrigger
 import asyncio
 import pytz
 from datetime import datetime
-
 import os
+
 TOKEN = os.getenv("TOKEN")
 
 intents = discord.Intents.default()
@@ -62,7 +62,7 @@ async def on_ready():
 async def settext(interaction: discord.Interaction, tresc: str):
     global message_text
     message_text = tresc
-    await interaction.response.send_message(f"Treść ustawiona na:\n`{message_text}`")
+    await interaction.response.send_message(f"Treść ustawiona na:\n`{message_text}`", ephemeral=True)
     print("Nowa treść wiadomości ustawiona:", message_text)
 
 @tree.command(name="settime", description="Ustaw godzinę wiadomości w formacie HH:MM (24h)")
@@ -76,16 +76,16 @@ async def settime(interaction: discord.Interaction, czas: str):
         scheduled_hour = hour
         scheduled_minute = minute
         schedule_daily_message()
-        await interaction.response.send_message(f"Czas wiadomości ustawiony na {hour:02d}:{minute:02d} (czasu polskiego)")
+        await interaction.response.send_message(f"Czas wiadomości ustawiony na {hour:02d}:{minute:02d} (czasu polskiego)", ephemeral=True)
         print(f"Czas wiadomości ustawiony na {hour:02d}:{minute:02d}")
     except ValueError:
-        await interaction.response.send_message("Nieprawidłowy format czasu. Użyj formatu HH:MM, np. 19:00")
+        await interaction.response.send_message("Nieprawidłowy format czasu. Użyj formatu HH:MM, np. 19:00", ephemeral=True)
 
 @tree.command(name="setchannel", description="Ustaw kanał do wysyłania wiadomości")
 async def setchannel(interaction: discord.Interaction):
     global default_channel_id
     default_channel_id = interaction.channel.id
-    await interaction.response.send_message("Ten kanał został ustawiony jako domyślny do wysyłki wiadomości.")
+    await interaction.response.send_message("Ten kanał został ustawiony jako domyślny do wysyłki wiadomości.", ephemeral=True)
     print("Default channel ustawiony:", default_channel_id)
 
 bot.run(TOKEN)
